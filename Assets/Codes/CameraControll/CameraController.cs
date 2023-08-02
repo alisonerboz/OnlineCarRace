@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Vehicles.Car;
 
 public class CameraController : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private GameObject cameraFolder; // Kamera Klasörü
     [SerializeField] private Transform[] cameraLocations; // Kamera Konumlarının Listesi
     [SerializeField] private int locationIndicator = 1; // Konum Değişme İndikatörü
-    [Range(0, 1)] public float smoothTime = 0.5f; // Yumuşak Geçiş Süresi
+    [Range(0, 1)] public float smoothTime = 0.8f; // Yumuşak Geçiş Süresi
     #endregion
 
     private void Start()
@@ -19,14 +20,11 @@ public class CameraController : MonoBehaviour
         attachedVehicle=GameObject.FindGameObjectWithTag("Player");
         cameraFolder = attachedVehicle.transform.Find("CAMERA").gameObject;
         cameraLocations = cameraFolder.GetComponentsInChildren<Transform>();
+        
     }
 
     private void Update()
     {
-        transform.LookAt(cameraFolder.transform);
-        transform.position = cameraLocations[locationIndicator].position * (1 - smoothTime) +
-                             transform.position * smoothTime;
-        
         if (Input.GetKeyDown(KeyCode.V))
         {
             if (locationIndicator >= 3)
@@ -34,9 +32,14 @@ public class CameraController : MonoBehaviour
                 locationIndicator = 2;
                 locationIndicator = 1;
             }
-            else
-                locationIndicator++;
+            else locationIndicator++;
         }
+    }
 
+    private void LateUpdate()
+    {
+        
+        transform.position = cameraLocations[locationIndicator].position * (1 - smoothTime) + transform.position * smoothTime;
+        transform.LookAt(cameraFolder.transform);
     }
 }

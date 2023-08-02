@@ -19,6 +19,10 @@ namespace UnityStandardAssets.Vehicles.Car
 
     public class CarController : MonoBehaviour
     {
+        [SerializeField] private GameObject[] _brakeLights; // Arka Fren Işıkları Listesi
+        [SerializeField] private GameObject[] _headLights; // Ön Işıkları Listesi
+        private bool isHeadLightOpen;
+        
         [SerializeField] private CarDriveType m_CarDriveType = CarDriveType.FourWheelDrive;
         [SerializeField] private WheelCollider[] m_WheelColliders = new WheelCollider[4];
         [SerializeField] private GameObject[] m_WheelMeshes = new GameObject[4];
@@ -57,8 +61,62 @@ namespace UnityStandardAssets.Vehicles.Car
         public float AccelInput { get; private set; }
 
         // Use this for initialization
+
+        private void LateUpdate()
+        {
+            Brake();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                _headLights[0].SetActive(isHeadLightOpen);
+                _headLights[1].SetActive(isHeadLightOpen);
+                isHeadLightOpen = !isHeadLightOpen;
+            }
+            BackLightsCheck();
+        }
+
+        private void Brake()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    m_WheelColliders[i].GetComponent<WheelCollider>().brakeTorque = m_BrakeTorque;
+                }
+            }
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    m_WheelColliders[i].GetComponent<WheelCollider>().brakeTorque = 0;
+                }
+            }
+        }
+        
+        private void BackLightsCheck()
+        {
+            if (Input.GetKey(KeyCode.S)||Input.GetKey(KeyCode.Space))
+            {
+                foreach (var brakeLight in _brakeLights)
+                {
+                    brakeLight.SetActive(true);
+                }
+            }
+            else
+            {
+                foreach (var brakeLight in _brakeLights)
+                {
+                    brakeLight.SetActive(false);
+                }
+            }
+        }
         private void Start()
         {
+            
+            
             m_WheelMeshLocalRotations = new Quaternion[4];
             for (int i = 0; i < 4; i++)
             {

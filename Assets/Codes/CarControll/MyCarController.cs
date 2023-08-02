@@ -14,7 +14,7 @@ public enum Axel // Çekiş
     public WheelCollider collider;
     public Axel axel;
 }
-public class CarController : MonoBehaviour
+public class MyCarController : MonoBehaviour
 {
     #region Variables
     //PRIVATE------------------------------------------------------------------------
@@ -56,10 +56,6 @@ public class CarController : MonoBehaviour
             _headLights[1].SetActive(isHeadLightOpen);
             isHeadLightOpen = !isHeadLightOpen;
         }
-
-        
-
-        
     }
 
     private void MoveDirection()
@@ -114,7 +110,6 @@ public class CarController : MonoBehaviour
             {
                 wheel.collider.brakeTorque = 0;
             }
-            
         }
     }
 
