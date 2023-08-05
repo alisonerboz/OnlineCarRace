@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace UnityStandardAssets.Vehicles.Car
@@ -17,9 +19,13 @@ namespace UnityStandardAssets.Vehicles.Car
         private Transform m_SkidTrail;
         private WheelCollider m_WheelCollider;
 
+        
+        
 
         private void Start()
         {
+            
+            
             skidParticles = transform.root.GetComponentInChildren<ParticleSystem>();
 
             if (skidParticles == null)
