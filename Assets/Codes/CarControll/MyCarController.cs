@@ -30,7 +30,7 @@ public class MyCarController : MonoBehaviour
     //PUBLİC--------------------------------------------------------------------------
     private Vector3 centerOfMass=new (0f,0.035f,0f);
     //BOOL
-    private bool isHeadLightOpen;
+    private bool isHeadLightOpen=true;
     #endregion
 
     private void Start()
@@ -52,9 +52,9 @@ public class MyCarController : MonoBehaviour
         MoveDirection();
         if (Input.GetKeyDown(KeyCode.H))
         {
+            isHeadLightOpen = !isHeadLightOpen;
             _headLights[0].SetActive(isHeadLightOpen);
             _headLights[1].SetActive(isHeadLightOpen);
-            isHeadLightOpen = !isHeadLightOpen;
         }
     }
 
